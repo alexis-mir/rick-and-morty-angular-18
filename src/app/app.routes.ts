@@ -13,4 +13,18 @@ export const routes: Routes = [
         (m) => m.MainContainerComponent,
       ),
   },
+  {
+    path: 'characters/create',
+    loadComponent: () =>
+      import(
+        './main-container/components/character-add-edit/character-add-edit.component'
+      ).then((m) => m.CharacterAddEditComponent),
+  },
+  {
+    path: 'characters/:id/edit',
+    loadComponent: () =>
+      import(
+        './main-container/components/character-add-edit/character-add-edit.component'
+      ).then((m) => m.CharacterAddEditComponent),
+  },
 ];
