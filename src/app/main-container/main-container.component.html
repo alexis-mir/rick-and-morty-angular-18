@@ -1,0 +1,14 @@
+<div class="character-grid">
+  @defer (when store.characters().length) {
+    @for (character of store.characters(); track character.id) {
+      @defer (on viewport) {
+        <app-character-card [character]="character"></app-character-card>
+        {{ character.name }}
+      } @placeholder {
+        <div class="placeholder">Loading</div>
+      }
+    }
+  } @placeholder {
+    <div class="placeholder">Loading</div>
+  }
+</div>

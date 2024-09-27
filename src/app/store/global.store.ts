@@ -1,13 +1,13 @@
 import { inject, InjectionToken } from '@angular/core';
 import { Character } from '@app/models';
 import { CharacterService } from '@app/services';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import {
-  addEntity,
-  removeEntity,
-  updateEntity,
-  withEntities,
-} from '@ngrx/signals/entities';
+  patchState,
+  signalStore,
+  withHooks,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { lastValueFrom } from 'rxjs';
 
 interface StoreState {
@@ -25,7 +25,6 @@ const STORE_STATE = new InjectionToken<StoreState>('GlobalStore', {
 export const GlobalStore = signalStore(
   { providedIn: 'root' },
   withState(() => inject(STORE_STATE)),
-  withEntities<Character>(),
   withMethods((store, characterService = inject(CharacterService)) => ({
     getCharacter(id: number) {
       return store.characters().find((char) => char.id === id);
@@ -33,10 +32,12 @@ export const GlobalStore = signalStore(
     async addCharacter(character: Omit<Character, 'id'>) {
       try {
         await lastValueFrom(characterService.addCharacters(character));
-        patchState(
-          store,
-          addEntity({ id: new Date().getTime(), ...character }),
-        );
+        patchState(store, ({ characters }) => ({
+          characters: [
+            ...characters,
+            { id: new Date().getTime(), ...character },
+          ],
+        }));
       } catch (error) {
         console.error(error);
       }
@@ -45,10 +46,12 @@ export const GlobalStore = signalStore(
       try {
         await lastValueFrom(characterService.updateCharacters(character));
         const { id, ...characterWithoutId } = character;
-        patchState(
-          store,
-          updateEntity({ id, changes: { ...characterWithoutId } }),
-        );
+        patchState(store, ({ characters }) => ({
+          characters: characters.map((char) =>
+            char.id === id ? { ...char, ...characterWithoutId } : char,
+          ),
+          isLoading: false,
+        }));
       } catch (error) {
         console.error(error);
       }
@@ -56,10 +59,20 @@ export const GlobalStore = signalStore(
     async removeCharacter(id: number) {
       try {
         await lastValueFrom(characterService.removeCharacters(id));
-        patchState(store, removeEntity(id));
+        patchState(store, ({ characters }) => ({
+          characters: characters.filter((char) => char.id !== id),
+        }));
       } catch (error) {
         console.error(error);
       }
     },
   })),
+  withHooks({
+    async onInit(store, characterService = inject(CharacterService)) {
+      const characters = await lastValueFrom(
+        characterService.getAllCharacters(),
+      );
+      patchState(store, { characters });
+    },
+  }),
 );

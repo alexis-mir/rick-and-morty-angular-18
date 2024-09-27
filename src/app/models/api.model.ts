@@ -7,6 +7,18 @@ export interface EntityBase {
   id: number;
 }
 
+export interface Location extends ResourceBase {
+  type: string;
+  dimension: string;
+  residents: string[];
+}
+
+export interface Episode extends ResourceBase {
+  air_date: string;
+  episode: string;
+  characters: string[];
+}
+
 export interface Info<T> {
   /**
    * The API will automatically paginate the responses. I will receive up to `20` documents per page.

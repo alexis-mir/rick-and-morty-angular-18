@@ -8,7 +8,7 @@ import { catchError, map, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class CharacterService {
-  private readonly baseUrl = 'https://rickandmortyapi.com/character';
+  private readonly baseUrl = 'https://rickandmortyapi.com/api/character';
   http = inject(HttpClient);
 
   getAllCharacters(): Observable<Character[]> {
