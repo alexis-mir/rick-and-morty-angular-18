@@ -1,15 +1,21 @@
 <a [routerLink]="['create']">Add Character</a>
 
-<div class="character-grid">
+<mat-grid-list cols="4" rowHeight="1:1">
   @defer (when store.characters().length) {
     @for (character of store.characters(); track character.id) {
       @defer (on viewport) {
-        <app-character-card [character]="character"></app-character-card>
+        <mat-grid-tile>
+          <app-character-card [character]="character"></app-character-card>
+        </mat-grid-tile>
       } @placeholder {
-        <div class="placeholder">Loading</div>
+        <mat-grid-tile>
+          <mat-spinner />
+        </mat-grid-tile>
       }
     }
   } @placeholder {
-    <div class="placeholder">Loading</div>
+    <mat-grid-tile>
+      <mat-spinner />
+    </mat-grid-tile>
   }
-</div>
+</mat-grid-list>
