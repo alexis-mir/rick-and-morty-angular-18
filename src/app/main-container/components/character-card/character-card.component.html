@@ -1,21 +1,34 @@
 @let characterLocal = character();
 
 @if (characterLocal) {
-  <div class="character-card">
-    <p>{{ characterLocal.name }}</p>
+  <mat-card class="character-card" appearance="outlined">
+    <mat-card-header>
+      <mat-card-title class="text-center">{{
+        characterLocal.name
+      }}</mat-card-title>
+      <mat-card-subtitle class="text-center">{{
+        characterLocal.species
+      }}</mat-card-subtitle>
+    </mat-card-header>
     <img
+      mat-card-image
       class="character-image"
+      width="230"
+      height="230"
       [ngSrc]="characterLocal.image"
-      width="200"
-      height="200"
       [alt]="characterLocal.name"
     />
-
-    <div class="button-container">
-      <button (click)="removeCharacter(characterLocal.id)">
-        Remove Character
+    <mat-card-content class="content-card">
+      <p><strong>Origin:</strong> {{ characterLocal.origin.name }}</p>
+      <p><strong>Status:</strong> {{ characterLocal.status }}</p>
+    </mat-card-content>
+    <mat-card-actions class="actions-container">
+      <button mat-button (click)="removeCharacter(characterLocal.id)">
+        Remove<mat-icon fontIcon="delete" />
       </button>
-      <a [routerLink]="[characterLocal.id + '/edit']">Edit Character</a>
-    </div>
-  </div>
+      <button mat-button (click)="editCharacter(characterLocal.id)">
+        Edit<mat-icon fontIcon="edit" />
+      </button>
+    </mat-card-actions>
+  </mat-card>
 }
