@@ -5,7 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Character } from '@app/models';
 import { GlobalStore } from '@app/store';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,12 +24,13 @@ export class CharacterCardComponent {
   character = input.required<Character>();
   router = inject(Router);
   readonly store = inject(GlobalStore);
+  route = inject(ActivatedRoute);
 
   removeCharacter(id: number) {
     this.store.removeCharacter(id);
   }
 
   editCharacter(id: number) {
-    this.router.navigate([id + '/edit']);
+    this.router.navigate([id + '/edit'], { relativeTo: this.route });
   }
 }
