@@ -5,3 +5,13 @@
   gap: 20px 30px;
   width: 100vw;
 }
+
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title-image {
+  max-width: 100%;
+}
