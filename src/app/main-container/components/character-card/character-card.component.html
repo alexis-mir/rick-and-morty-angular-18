@@ -6,9 +6,19 @@
       <mat-card-title class="text-center">{{
         characterLocal.name
       }}</mat-card-title>
-      <mat-card-subtitle class="text-center">{{
-        characterLocal.species
-      }}</mat-card-subtitle>
+      <mat-card-subtitle class="text-center">
+        <span
+          class="status-circle"
+          [style.backgroundColor]="
+            characterLocal.status === 'Alive'
+              ? 'green'
+              : characterLocal.status === 'Dead'
+                ? 'red'
+                : 'gray'
+          "
+        ></span>
+        {{ characterLocal.status }} | {{ characterLocal.species }}
+      </mat-card-subtitle>
     </mat-card-header>
     <img
       mat-card-image
@@ -19,14 +29,16 @@
       [alt]="characterLocal.name"
     />
     <mat-card-content class="content-card">
-      <p><strong>Origin:</strong> {{ characterLocal.origin.name }}</p>
-      <p><strong>Status:</strong> {{ characterLocal.status }}</p>
+      <p><strong>Origin Location:</strong> {{ characterLocal.origin.name }}</p>
+      <p>
+        <strong>Last known location:</strong> {{ characterLocal.location.name }}
+      </p>
     </mat-card-content>
     <mat-card-actions class="actions-container">
       <button mat-button (click)="removeCharacter(characterLocal.id)">
         Remove<mat-icon fontIcon="delete" />
       </button>
-      <button mat-button (click)="editCharacter(characterLocal.id)">
+      <button mat-button [routerLink]="[characterLocal.id + '/edit']">
         Edit<mat-icon fontIcon="edit" />
       </button>
     </mat-card-actions>
