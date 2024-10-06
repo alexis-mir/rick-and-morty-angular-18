@@ -5,7 +5,7 @@ import {
   inject,
   input,
 } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { Character } from '@app/models';
 import { GlobalStore } from '@app/store';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,7 +29,6 @@ import { MatIconModule } from '@angular/material/icon';
 export class CharacterCardComponent {
   character = input.required<Character>();
   readonly store = inject(GlobalStore);
-  route = inject(ActivatedRoute);
 
   removeCharacter(id: number) {
     this.store.removeCharacter(id);

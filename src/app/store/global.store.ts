@@ -8,14 +8,22 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom } from 'rxjs/internal/lastValueFrom';
 
 interface StoreState {
   characters: Character[];
+  pageInfo: {
+    pageIndex: number;
+    length: number;
+  };
 }
 
 const initialState: StoreState = {
   characters: [],
+  pageInfo: {
+    pageIndex: 0,
+    length: 0,
+  },
 };
 
 const STORE_STATE = new InjectionToken<StoreState>('GlobalStore', {
@@ -66,13 +74,19 @@ export const GlobalStore = signalStore(
         console.error(error);
       }
     },
+    async getAllCharacters(pageIndex?: number) {
+      const { characters, pages } = await lastValueFrom(
+        characterService.getAllCharacters(pageIndex),
+      );
+      patchState(store, { characters, pageInfo: pages });
+    },
   })),
   withHooks({
     async onInit(store, characterService = inject(CharacterService)) {
-      const characters = await lastValueFrom(
+      const { characters, pages } = await lastValueFrom(
         characterService.getAllCharacters(),
       );
-      patchState(store, { characters });
+      patchState(store, { characters, pageInfo: pages });
     },
   }),
 );

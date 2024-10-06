@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
+import { PageEvent } from '@angular/material/paginator';
 import { inject, Injectable } from '@angular/core';
 import { CharacterAdapter } from '@app/adapters';
 import { Character, Info } from '@app/models';
-import { catchError, map, Observable } from 'rxjs';
+import { catchError } from 'rxjs/internal/operators/catchError';
+import { map } from 'rxjs/internal/operators/map';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root',
@@ -11,10 +14,13 @@ export class CharacterService {
   private readonly baseUrl = 'https://rickandmortyapi.com/api/character';
   http = inject(HttpClient);
 
-  getAllCharacters(): Observable<Character[]> {
+  getAllCharacters(
+    pageIndex?: number,
+  ): Observable<{ characters: Character[]; pages: PageEvent }> {
+    const url = pageIndex ? `${this.baseUrl}?page=${pageIndex}` : this.baseUrl;
     return this.http
-      .get<Info<Character>>(this.baseUrl)
-      .pipe(map((info) => CharacterAdapter(info)));
+      .get<Info<Character>>(url)
+      .pipe(map((info) => CharacterAdapter(info, pageIndex)));
   }
 
   addCharacters(character: Omit<Character, 'id'>): Observable<void> {
