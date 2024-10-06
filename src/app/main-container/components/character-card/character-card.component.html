@@ -23,8 +23,8 @@
     <img
       mat-card-image
       class="character-image"
-      width="230"
-      height="230"
+      width="300"
+      height="300"
       [ngSrc]="characterLocal.image"
       [alt]="characterLocal.name"
     />
@@ -35,10 +35,10 @@
       </p>
     </mat-card-content>
     <mat-card-actions class="actions-container">
-      <button mat-button (click)="removeCharacter(characterLocal.id)">
+      <button mat-flat-button (click)="removeCharacter(characterLocal.id)">
         Remove<mat-icon fontIcon="delete" />
       </button>
-      <button mat-button [routerLink]="[characterLocal.id + '/edit']">
+      <button mat-flat-button [routerLink]="[characterLocal.id + '/edit']">
         Edit<mat-icon fontIcon="edit" />
       </button>
     </mat-card-actions>
