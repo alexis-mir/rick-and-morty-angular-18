@@ -4,10 +4,12 @@
     src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Rick_and_Morty.svg"
     alt="Rick and Morty"
   />
-  <h3>Characters from all seasons</h3>
+  <h3>Characters</h3>
 </div>
 
-<a [routerLink]="['create']">Add Character</a>
+<button mat-raised-button color="primary" [routerLink]="['create']">
+  Añadir Personaje
+</button>
 
 <div class="flex-container">
   @defer (when store.characters().length) {

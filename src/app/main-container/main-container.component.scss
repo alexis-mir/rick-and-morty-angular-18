@@ -1,9 +1,9 @@
 .flex-container {
-  justify-content: center;
-  display: flex; /* or inline-flex */
+  display: flex;
   flex-wrap: wrap;
   gap: 20px 30px;
-  width: 100vw;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .title-container {
@@ -14,4 +14,8 @@
 
 .title-image {
   max-width: 100%;
+}
+
+button {
+  margin: 20px 0;
 }
