@@ -3,13 +3,17 @@
     class="title-image"
     src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Rick_and_Morty.svg"
     alt="Rick and Morty"
+    priority
   />
   <h3>Characters</h3>
 </div>
-
-<button mat-raised-button color="primary" [routerLink]="['create']">
-  Añadir Personaje
-</button>
+<div class="filter-container">
+  <app-data-search class="search" (search)="onSearch($event)"></app-data-search>
+  <button mat-fab extended [routerLink]="['create']">
+    <mat-icon>add</mat-icon>
+    Add Character
+  </button>
+</div>
 
 <div class="flex-container">
   @defer (when store.characters().length) {

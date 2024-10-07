@@ -7,6 +7,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
 import { PaginatorComponent } from '@app/components';
 import { PageEvent } from '@angular/material/paginator';
+import { DataSearchComponent } from '@app/components/data-search/data-search.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-main-container',
@@ -18,6 +20,8 @@ import { PageEvent } from '@angular/material/paginator';
     MatProgressSpinnerModule,
     MatButtonModule,
     PaginatorComponent,
+    DataSearchComponent,
+    MatIconModule,
   ],
   templateUrl: './main-container.component.html',
   styleUrl: './main-container.component.scss',
@@ -27,6 +31,10 @@ export class MainContainerComponent {
   readonly store = inject(GlobalStore);
 
   handlePageEvent(e: PageEvent) {
-    this.store.getAllCharacters(e.pageIndex);
+    this.store.getAllCharacters(e.pageIndex, this.store.pageInfo().filter);
+  }
+
+  onSearch(query: string) {
+    this.store.getAllCharacters(0, query);
   }
 }

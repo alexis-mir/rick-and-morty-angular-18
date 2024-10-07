@@ -1,3 +1,10 @@
+:host {
+  display: block;
+  max-width: 80vw;
+  margin: 0 auto;
+  // padding: 0 20px;
+}
+
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -6,14 +13,29 @@
   align-items: stretch;
 }
 
+.filter-container {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.search {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
 .title-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 
 .title-image {
   max-width: 100%;
+  height: auto;
 }
 
 button {
@@ -25,4 +47,24 @@ button {
   margin-top: 20px;
   display: flex;
   justify-content: center;
+}
+
+app-data-search {
+  flex-basis: 100%;
+  margin-bottom: 20px;
+}
+
+// Estilos responsivos
+@media (max-width: 768px) {
+  :host {
+    max-width: 90vw;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  :host {
+    max-width: 95vw;
+    padding: 0 5px;
+  }
 }
