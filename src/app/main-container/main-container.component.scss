@@ -19,3 +19,10 @@
 button {
   margin: 20px 0;
 }
+
+.paginator {
+  flex-basis: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}

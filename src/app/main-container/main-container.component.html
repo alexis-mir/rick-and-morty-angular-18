@@ -23,5 +23,8 @@
   } @placeholder {
     <mat-spinner />
   }
-  <app-paginator (handlePageEvent)="handlePageEvent($event)"></app-paginator>
+  <app-paginator
+    class="paginator"
+    (handlePageEvent)="handlePageEvent($event)"
+  ></app-paginator>
 </div>

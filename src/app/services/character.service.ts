@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { inject, Injectable } from '@angular/core';
 import { CharacterAdapter } from '@app/adapters';
@@ -14,13 +14,27 @@ export class CharacterService {
   private readonly baseUrl = 'https://rickandmortyapi.com/api/character';
   http = inject(HttpClient);
 
-  getAllCharacters(
-    pageIndex?: number,
-  ): Observable<{ characters: Character[]; pages: PageEvent }> {
-    const url = pageIndex ? `${this.baseUrl}?page=${pageIndex}` : this.baseUrl;
+  getAllCharacters(options?: {
+    pageIndex?: number;
+    name?: string;
+  }): Observable<{ characters: Character[]; pages: PageEvent }> {
+    let params = new HttpParams();
+
+    if (options?.pageIndex !== undefined) {
+      params = params.set('page', ++options.pageIndex);
+    }
+
+    if (options?.name) {
+      params = params.set('name', options.name);
+    }
+
     return this.http
-      .get<Info<Character>>(url)
-      .pipe(map((info) => CharacterAdapter(info, pageIndex)));
+      .get<Info<Character>>(this.baseUrl, { params })
+      .pipe(
+        map((info) =>
+          CharacterAdapter(info, options?.pageIndex, options?.name),
+        ),
+      );
   }
 
   addCharacters(character: Omit<Character, 'id'>): Observable<void> {

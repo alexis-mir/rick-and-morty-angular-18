@@ -1,12 +1,12 @@
 <mat-paginator
   class="paginator"
   (page)="handlePageEvent.emit($event)"
-  [length]="length"
+  [length]="length()"
+  [pageIndex]="pageIndex()"
   [pageSize]="pageSize"
   [disabled]="false"
   [showFirstLastButtons]="true"
   [hidePageSize]="false"
-  [pageIndex]="pageIndex"
   aria-label="Select page"
 >
 </mat-paginator>

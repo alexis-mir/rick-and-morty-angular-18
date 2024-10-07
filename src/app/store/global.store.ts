@@ -15,6 +15,7 @@ interface StoreState {
   pageInfo: {
     pageIndex: number;
     length: number;
+    filter?: string;
   };
 }
 
@@ -23,6 +24,7 @@ const initialState: StoreState = {
   pageInfo: {
     pageIndex: 0,
     length: 0,
+    filter: undefined,
   },
 };
 
@@ -74,9 +76,9 @@ export const GlobalStore = signalStore(
         console.error(error);
       }
     },
-    async getAllCharacters(pageIndex?: number) {
+    async getAllCharacters(pageIndex?: number, name?: string) {
       const { characters, pages } = await lastValueFrom(
-        characterService.getAllCharacters(pageIndex),
+        characterService.getAllCharacters({ pageIndex, name }),
       );
       patchState(store, { characters, pageInfo: pages });
     },

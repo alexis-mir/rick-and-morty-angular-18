@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
+  computed,
   inject,
   Output,
 } from '@angular/core';
@@ -21,7 +22,9 @@ export const PAGE_SIZE = 20;
 export class PaginatorComponent {
   readonly store = inject(GlobalStore);
   readonly pageSize = PAGE_SIZE;
-  length = this.store.pageInfo.length;
-  pageIndex = this.store.pageInfo.pageIndex;
-  @Output() handlePageEvent = new EventEmitter<PageEvent>();
+
+  length = computed(() => this.store.pageInfo().length);
+  pageIndex = computed(() => this.store.pageInfo().pageIndex);
+
+  @Output() readonly handlePageEvent = new EventEmitter<PageEvent>();
 }
